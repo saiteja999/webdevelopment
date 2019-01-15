@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Anchor Tags & Navigation</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #0077cc; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #0077cc; padding: 12px 16px; }
+        nav ul { list-style: none; padding: 0; display: flex; gap: 16px; background: #1d3557; padding: 12px 20px; border-radius: 6px; }
+        nav a { color: #a8dadc; text-decoration: none; padding: 6px 12px; }
+        nav a:hover { background: #457b9d; border-radius: 4px; }
+        section { min-height: 200px; padding: 20px; margin: 16px 0; border: 1px solid #ddd; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Anchor Tags & Navigation</h1>
+
+    <!-- ===================== Basic Links =====================
+         Challenge: Link to external sites, email, and phone.
+         Solution: Use href with https://, mailto:, and tel: protocols.
+         target="_blank" opens in a new tab.
+    ========================================================== -->
+    <h2>Basic Links</h2>
+    <p class="desc">Different types of links: external (new tab), same tab, email, and phone.</p>
+
+    <ul>
+        <li><a href="https://developer.mozilla.org" target="_blank">MDN Web Docs (opens in new tab)</a></li>
+        <li><a href="https://google.com">Google (same tab)</a></li>
+        <li><a href="mailto:hello@example.com">Send an email to hello@example.com</a></li>
+        <li><a href="tel:+1-555-123-4567">Call +1-555-123-4567</a></li>
+    </ul>
+
+    <!-- ===================== In-Page Navigation =====================
+         Challenge: Jump to different sections on the same page.
+         Solution: Link href="#id" to an element with a matching id attribute.
+    ================================================================= -->
+    <h2>In-Page Navigation with Anchors</h2>
+    <p class="desc">Clicking a link scrolls to the section with the matching <code>id</code>.</p>
+
+    <nav>
+        <ul>
+            <li><a href="#about">About</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="about">
+        <h3>About</h3>
+        <p>This section has id="about". The nav link with href="#about" jumps here.</p>
+    </section>
+
+    <section id="projects">
+        <h3>Projects</h3>
+        <p>This section has id="projects". Anchor links work by matching the href fragment to the element's id.</p>
+    </section>
+
+    <section id="contact">
+        <h3>Contact</h3>
+        <p>This section has id="contact".</p>
+    </section>
+
+    <a href="#">Back to Top</a>
+
+    <!-- ===================== Navigation Bar =====================
+         Challenge: Build a horizontal navigation using semantic HTML.
+         Solution: <nav> wrapping a <ul> of links. CSS flexbox makes it horizontal.
+    ============================================================== -->
+    <h2>Navigation Bar with nav + ul</h2>
+    <p class="desc">Semantic navigation: <code>&lt;nav&gt;</code> element with an unordered list of links, styled horizontal with flexbox.</p>
+
+    <nav>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Portfolio</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- ===================== Image Link & Download =====================
+         Challenge: Make an image clickable, and create a download link.
+         Solution: Wrap <img> in <a>. Use the download attribute on <a> to trigger file download.
+    =================================================================== -->
+    <h2>Image as a Link & Download Link</h2>
+    <p class="desc">Wrapping <code>&lt;img&gt;</code> inside <code>&lt;a&gt;</code> makes the image clickable. The <code>download</code> attribute triggers a file download.</p>
+
+    <a href="https://developer.mozilla.org" target="_blank">
+        <img src="https://via.placeholder.com/200x100?text=Click+Me" alt="Clickable placeholder image" width="200" height="100">
+    </a>
+
+    <br><br>
+    <a href="01-tables.html" download>Download the Tables challenge file</a>
+</body>
+</html>
