@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Forms & Inputs</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #0077cc; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #0077cc; padding: 12px 16px; }
+        label { display: block; margin: 10px 0 4px; font-weight: 600; }
+        input, select, textarea { padding: 6px 10px; font-size: 1em; margin-bottom: 4px; }
+        button { padding: 8px 20px; background: #0077cc; color: white; border: none; cursor: pointer; font-size: 1em; margin-top: 10px; }
+        fieldset { border: 2px solid #ccc; padding: 16px; margin: 16px 0; border-radius: 6px; }
+        legend { font-weight: bold; padding: 0 8px; }
+    </style>
+</head>
+<body>
+    <h1>Forms & Inputs</h1>
+
+    <!-- ===================== Registration Form =====================
+         Challenge: Build a form with common input types and built-in validation.
+         Solution: Use type="email" for email validation, required for mandatory fields,
+         minlength for password rules, and min/max for number ranges.
+    ================================================================ -->
+    <h2>Registration Form with Validation</h2>
+    <p class="desc">Using built-in HTML validation: <code>required</code>, <code>type="email"</code>, <code>minlength</code>, <code>min</code>/<code>max</code>. The browser validates on submit.</p>
+
+    <form>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" name="fullname" required placeholder="Enter your name">
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
+
+        <label for="password">Password (min 8 characters)</label>
+        <input type="password" id="password" name="password" minlength="8" required placeholder="At least 8 characters">
+
+        <label for="age">Age</label>
+        <input type="number" id="age" name="age" min="18" max="100" placeholder="18-100">
+
+        <br>
+        <button type="submit">Register</button>
+    </form>
+
+    <!-- ===================== Survey Form =====================
+         Challenge: Use radio buttons, checkboxes, dropdowns, textarea, and range.
+         Solution: Group related inputs with <fieldset>/<legend>.
+         Radio buttons share the same name (only one can be selected).
+         Checkboxes allow multiple selections.
+    ========================================================== -->
+    <h2>Survey Form with Varied Inputs</h2>
+    <p class="desc">Radio buttons share the same <code>name</code> for single-select. Checkboxes allow multi-select. <code>&lt;fieldset&gt;</code> groups related controls.</p>
+
+    <form>
+        <fieldset>
+            <legend>Experience Level</legend>
+            <label><input type="radio" name="experience" value="beginner"> Beginner</label>
+            <label><input type="radio" name="experience" value="intermediate" checked> Intermediate</label>
+            <label><input type="radio" name="experience" value="advanced"> Advanced</label>
+        </fieldset>
+
+        <fieldset>
+            <legend>Skills (select all that apply)</legend>
+            <label><input type="checkbox" name="skills" value="html" checked> HTML</label>
+            <label><input type="checkbox" name="skills" value="css" checked> CSS</label>
+            <label><input type="checkbox" name="skills" value="javascript" checked> JavaScript</label>
+            <label><input type="checkbox" name="skills" value="react"> React</label>
+            <label><input type="checkbox" name="skills" value="node"> Node.js</label>
+        </fieldset>
+
+        <label for="country">Country</label>
+        <select id="country" name="country">
+            <option value="">-- Select --</option>
+            <option value="in">India</option>
+            <option value="us">United States</option>
+            <option value="uk">United Kingdom</option>
+            <option value="de">Germany</option>
+            <option value="jp">Japan</option>
+        </select>
+
+        <label for="comments">Comments</label>
+        <textarea id="comments" name="comments" rows="4" cols="50" placeholder="Any feedback..."></textarea>
+
+        <label for="satisfaction">Satisfaction: <output id="sat-value">5</output>/10</label>
+        <input type="range" id="satisfaction" name="satisfaction" min="1" max="10" value="5"
+               oninput="document.getElementById('sat-value').textContent = this.value">
+
+        <br>
+        <button type="submit">Submit Survey</button>
+    </form>
+
+    <!-- ===================== Specialized Inputs =====================
+         Challenge: Use less common but useful input types.
+         Solution: date, time, color, file, and datalist for autocomplete suggestions.
+    ================================================================= -->
+    <h2>Specialized Inputs</h2>
+    <p class="desc">Date, time, color picker, file upload, and <code>&lt;datalist&gt;</code> for autocomplete suggestions.</p>
+
+    <form>
+        <label for="appt-date">Appointment Date</label>
+        <input type="date" id="appt-date" name="appt-date">
+
+        <label for="appt-time">Preferred Time</label>
+        <input type="time" id="appt-time" name="appt-time">
+
+        <label for="fav-color">Favorite Color</label>
+        <input type="color" id="fav-color" name="fav-color" value="#0077cc">
+
+        <label for="avatar">Upload Photo (images only)</label>
+        <input type="file" id="avatar" name="avatar" accept="image/*">
+
+        <label for="city">City (with autocomplete)</label>
+        <input type="text" id="city" name="city" list="city-options" placeholder="Start typing...">
+        <datalist id="city-options">
+            <option value="Hyderabad">
+            <option value="Bangalore">
+            <option value="Mumbai">
+            <option value="Delhi">
+            <option value="Chennai">
+            <option value="Pune">
+        </datalist>
+
+        <br>
+        <button type="submit">Book Appointment</button>
+    </form>
+</body>
+</html>
