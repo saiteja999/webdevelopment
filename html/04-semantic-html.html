@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semantic HTML</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #0077cc; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #0077cc; padding: 12px 16px; }
+
+        /* Visualize semantic elements with labels */
+        .demo header, .demo nav, .demo main, .demo article, .demo section,
+        .demo aside, .demo footer, .demo figure {
+            border: 2px dashed #0077cc; padding: 16px; margin: 8px 0; position: relative;
+        }
+        .demo header::before, .demo nav::before, .demo main::before, .demo article::before,
+        .demo section::before, .demo aside::before, .demo footer::before, .demo figure::before {
+            position: absolute; top: -10px; left: 10px;
+            background: #0077cc; color: white; font-size: 0.7em;
+            padding: 1px 8px; border-radius: 3px;
+        }
+        .demo header::before  { content: '<header>'; }
+        .demo nav::before     { content: '<nav>'; }
+        .demo main::before    { content: '<main>'; }
+        .demo article::before { content: '<article>'; }
+        .demo section::before { content: '<section>'; }
+        .demo aside::before   { content: '<aside>'; }
+        .demo footer::before  { content: '<footer>'; }
+        .demo figure::before  { content: '<figure>'; }
+
+        details { margin: 8px 0; }
+        summary { cursor: pointer; font-weight: 600; }
+        pre { background: #1d3557; color: #a8dadc; padding: 16px; border-radius: 6px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Semantic HTML</h1>
+
+    <!-- ===================== Blog Page Layout =====================
+         Challenge: Structure a blog page without using any <div> elements.
+         Solution: Use semantic tags — each one describes its purpose:
+           <header>   → site/page header
+           <nav>      → navigation links
+           <main>     → primary content
+           <article>  → self-contained content (blog post)
+           <section>  → thematic grouping
+           <aside>    → sidebar/tangential content
+           <footer>   → site/page footer
+           <figure>   → image with caption
+           <time>     → machine-readable date
+           <address>  → contact info
+         The CSS above adds dashed borders and labels so you can see each element.
+    ============================================================== -->
+    <h2>Blog Page Layout (no divs)</h2>
+    <p class="desc">Every element describes its role. The CSS visualizes each semantic tag with a dashed border and label.</p>
+
+    <div class="demo">
+        <header>
+            <h3>My Tech Blog</h3>
+            <nav>
+                <a href="#">Home</a> |
+                <a href="#">Articles</a> |
+                <a href="#">About</a>
+            </nav>
+        </header>
+
+        <main>
+            <article>
+                <h3>Understanding Semantic HTML</h3>
+                <p>Published on <time datetime="2026-02-20">February 20, 2026</time></p>
+                <p>Semantic HTML gives meaning to your markup. Instead of generic divs, each element tells the browser and screen readers what its content represents.</p>
+
+                <figure>
+                    <img src="https://via.placeholder.com/400x200?text=Semantic+HTML" alt="Diagram showing semantic HTML elements" width="400" height="200">
+                    <figcaption>A visual breakdown of semantic elements in a page layout.</figcaption>
+                </figure>
+            </article>
+
+            <section>
+                <h3>Related Posts</h3>
+                <ul>
+                    <li><a href="#">CSS Grid Deep Dive</a></li>
+                    <li><a href="#">JavaScript Async Patterns</a></li>
+                </ul>
+            </section>
+        </main>
+
+        <aside>
+            <h4>About the Author</h4>
+            <p>Sai Teja — a developer who loves building things for the web.</p>
+        </aside>
+
+        <footer>
+            <p>&copy; 2026 My Tech Blog</p>
+            <address>Contact: <a href="mailto:sai@example.com">sai@example.com</a></address>
+        </footer>
+    </div>
+
+    <!-- ===================== Rich Semantic Content =====================
+         Challenge: Use lesser-known but powerful semantic elements.
+         Solution:
+           <details>/<summary> → collapsible accordion
+           <blockquote cite=""> → quoted text with source
+           <mark> → highlighted text
+           <abbr title=""> → abbreviation with tooltip
+           <pre>/<code> → preformatted code blocks
+    ================================================================= -->
+    <h2>Rich Semantic Content</h2>
+    <p class="desc">Collapsible sections, quotes, highlighted text, abbreviations, and code blocks — all with semantic meaning.</p>
+
+    <h3>FAQ Accordion with details/summary</h3>
+    <details>
+        <summary>What is semantic HTML?</summary>
+        <p>Semantic HTML uses elements that describe the meaning of their content, like <code>&lt;article&gt;</code>, <code>&lt;nav&gt;</code>, and <code>&lt;footer&gt;</code>, instead of generic <code>&lt;div&gt;</code> tags.</p>
+    </details>
+    <details>
+        <summary>Why does it matter?</summary>
+        <p>It improves accessibility (screen readers understand the page structure), <abbr title="Search Engine Optimization">SEO</abbr> (search engines parse meaning), and code readability.</p>
+    </details>
+    <details open>
+        <summary>Is it hard to learn?</summary>
+        <p>Not at all — it's mostly about choosing the <mark>right element for the job</mark> instead of defaulting to div.</p>
+    </details>
+
+    <h3>Blockquote</h3>
+    <blockquote cite="https://www.w3.org/TR/html52/">
+        <p>"Authors are strongly encouraged to view the div element as an element of last resort, for when no other element is suitable."</p>
+    </blockquote>
+
+    <h3>Code Block</h3>
+    <pre><code>&lt;article&gt;
+  &lt;h2&gt;Post Title&lt;/h2&gt;
+  &lt;time datetime="2026-02-20"&gt;Feb 20, 2026&lt;/time&gt;
+  &lt;p&gt;Post content goes here.&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+</body>
+</html>
