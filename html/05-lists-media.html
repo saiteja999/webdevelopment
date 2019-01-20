@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Lists & Media</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #0077cc; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #0077cc; padding: 12px 16px; }
+        dt { font-weight: bold; margin-top: 8px; }
+        dd { margin-left: 20px; color: #555; }
+        img { max-width: 100%; border-radius: 6px; }
+        figcaption { font-style: italic; color: #666; margin-top: 6px; }
+    </style>
+</head>
+<body>
+    <h1>Lists & Media</h1>
+
+    <!-- ===================== All Types of Lists =====================
+         Challenge: Show the three list types: ordered, unordered, description.
+         Solution:
+           <ol> → numbered list (type attribute changes numbering style)
+           <ul> → bulleted list (can be nested for sub-items)
+           <dl> → definition/description list with <dt> (term) and <dd> (description)
+    =============================================================== -->
+    <h2>Ordered List (Roman Numerals)</h2>
+    <p class="desc">Using <code>type="I"</code> on <code>&lt;ol&gt;</code> to display Roman numerals instead of numbers.</p>
+
+    <ol type="I">
+        <li>The Shawshank Redemption</li>
+        <li>Inception</li>
+        <li>Interstellar</li>
+        <li>The Dark Knight</li>
+        <li>Parasite</li>
+    </ol>
+
+    <h2>Unordered List with Nesting</h2>
+    <p class="desc">A grocery list where "Fruits" has a nested sub-list. Just place another <code>&lt;ul&gt;</code> inside an <code>&lt;li&gt;</code>.</p>
+
+    <ul>
+        <li>Vegetables</li>
+        <li>
+            Fruits
+            <ul>
+                <li>Apple</li>
+                <li>Banana</li>
+                <li>Mango</li>
+            </ul>
+        </li>
+        <li>Dairy</li>
+        <li>Grains</li>
+    </ul>
+
+    <h2>Description List</h2>
+    <p class="desc">Using <code>&lt;dl&gt;</code>, <code>&lt;dt&gt;</code> (term), and <code>&lt;dd&gt;</code> (description) for glossary-style content.</p>
+
+    <dl>
+        <dt>HTML</dt>
+        <dd>HyperText Markup Language — the structure of web pages.</dd>
+
+        <dt>CSS</dt>
+        <dd>Cascading Style Sheets — controls the presentation and layout.</dd>
+
+        <dt>JavaScript</dt>
+        <dd>A programming language that adds interactivity to web pages.</dd>
+
+        <dt>DOM</dt>
+        <dd>Document Object Model — the browser's tree representation of HTML that JavaScript can manipulate.</dd>
+    </dl>
+
+    <!-- ===================== Images =====================
+         Challenge: Display images with proper attributes and responsive behavior.
+         Solution:
+           <img> with alt, width, height for basic images.
+           <picture> with <source> for responsive images (different sizes per screen).
+           <figure> with <figcaption> to add a caption.
+    ==================================================== -->
+    <h2>Image with alt, width, height</h2>
+    <p class="desc">Always include <code>alt</code> text for accessibility and <code>width</code>/<code>height</code> to prevent layout shift.</p>
+
+    <img src="https://picsum.photos/800/400" alt="Random landscape photo from Picsum" width="800" height="400">
+
+    <h2>Figure with Figcaption</h2>
+    <p class="desc"><code>&lt;figure&gt;</code> groups an image with its caption. Screen readers associate the caption with the image.</p>
+
+    <figure>
+        <img src="https://picsum.photos/600/300" alt="Another random photo" width="600" height="300">
+        <figcaption>A random photo served by Picsum — used here as a placeholder.</figcaption>
+    </figure>
+
+    <!-- ===================== Video & Audio =====================
+         Challenge: Embed video and audio natively, plus an iframe for YouTube.
+         Solution:
+           <video> with controls, poster, and fallback text.
+           <audio> with controls and multiple <source> formats.
+           <iframe> for embedding third-party content like YouTube.
+    ========================================================== -->
+    <h2>Video Element</h2>
+    <p class="desc"><code>&lt;video&gt;</code> with <code>controls</code> for play/pause, <code>poster</code> for a preview image, and a fallback message.</p>
+
+    <video controls width="600" poster="https://via.placeholder.com/600x340?text=Video+Poster">
+        <source src="sample.mp4" type="video/mp4">
+        <source src="sample.webm" type="video/webm">
+        Your browser does not support the video element.
+    </video>
+
+    <h2>Audio Element</h2>
+    <p class="desc"><code>&lt;audio&gt;</code> with multiple sources so the browser picks the format it supports.</p>
+
+    <audio controls>
+        <source src="sample.mp3" type="audio/mpeg">
+        <source src="sample.ogg" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <h2>YouTube Embed with iframe</h2>
+    <p class="desc">Using <code>&lt;iframe&gt;</code> to embed external content. Always set <code>title</code> for accessibility.</p>
+
+    <iframe
+        width="560"
+        height="315"
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+    </iframe>
+</body>
+</html>
