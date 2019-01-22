@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Box Model</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #e63946; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #e63946; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; }
+
+        /* ===================== Box Sizing =====================
+           Problem: Two boxes with the same width but different padding/border
+           end up different total sizes.
+           Solution: box-sizing: border-box makes width include padding + border.
+        ====================================================== */
+        .box-a {
+            width: 200px;
+            padding: 20px;
+            border: 5px solid #e63946;
+            margin: 8px 0;
+            background: #ffd6d6;
+            box-sizing: border-box;
+        }
+        .box-b {
+            width: 200px;
+            padding: 10px;
+            border: 10px solid #457b9d;
+            margin: 8px 0;
+            background: #d6eaf8;
+            box-sizing: border-box;
+        }
+
+        /* ===================== Margin Collapse =====================
+           Problem: Two adjacent vertical margins don't add up — the larger one wins.
+           .top has margin-bottom: 30px, .bottom has margin-top: 30px → gap is 30px, not 60px.
+           Solution: display: flex on the parent breaks the margin collapse behavior.
+        ========================================================== */
+        .collapse-demo {
+            background: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+        }
+        .collapse-demo .top {
+            margin-bottom: 30px;
+            background: #ffd6d6;
+            padding: 10px;
+        }
+        .collapse-demo .bottom {
+            margin-top: 30px;
+            background: #d6eaf8;
+            padding: 10px;
+        }
+
+        /* ===================== Centering a Box =====================
+           Problem: Center a box both horizontally and vertically inside a container.
+           Solution: display: flex + justify-content: center + align-items: center on the parent.
+        ========================================================== */
+        .center-parent {
+            height: 300px;
+            background: #f0f0f0;
+            border: 2px solid #999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .centered-box {
+            width: 150px;
+            height: 80px;
+            background: #e63946;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ===================== Outline vs Border =====================
+           Problem: Need a visual indicator around an element that doesn't affect layout.
+           Solution: outline sits outside the border and doesn't take up space.
+           outline-offset pushes it further out.
+        ============================================================ -->
+        */
+        .outline-box {
+            width: 200px;
+            height: 80px;
+            background: #fffde7;
+            margin: 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #457b9d;
+            outline: 3px dashed #e63946;
+            outline-offset: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Box Model</h1>
+
+    <h2>box-sizing: border-box</h2>
+    <p class="desc">Both boxes have <code>width: 200px</code> but different padding and border. With <code>box-sizing: border-box</code>, the 200px includes everything, so they render at the same total width.</p>
+    <div class="demo">
+        <div class="box-a">Box A: 20px padding, 5px border</div>
+        <div class="box-b">Box B: 10px padding, 10px border</div>
+    </div>
+
+    <h2>Margin Collapse</h2>
+    <p class="desc">Normally, adjacent vertical margins collapse — the gap between these would be 30px (not 60px). Using <code>display: flex</code> on the parent prevents collapse, so both margins apply and the gap becomes 60px.</p>
+    <div class="demo">
+        <div class="collapse-demo">
+            <p class="top">margin-bottom: 30px</p>
+            <p class="bottom">margin-top: 30px</p>
+        </div>
+    </div>
+
+    <h2>Centering with Flexbox</h2>
+    <p class="desc">The classic centering pattern: <code>display: flex</code> + <code>justify-content: center</code> (horizontal) + <code>align-items: center</code> (vertical) on the parent.</p>
+    <div class="demo">
+        <div class="center-parent">
+            <div class="centered-box">Centered!</div>
+        </div>
+    </div>
+
+    <h2>Outline vs Border</h2>
+    <p class="desc"><code>border</code> affects layout (takes up space). <code>outline</code> does not — it draws on top without shifting anything. <code>outline-offset</code> controls the gap between outline and border.</p>
+    <div class="demo">
+        <div class="outline-box">Blue border + Red outline</div>
+    </div>
+</body>
+</html>
