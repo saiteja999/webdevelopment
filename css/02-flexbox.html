@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #e63946; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #e63946; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; }
+        .box { padding: 20px; color: white; font-weight: bold; text-align: center; border-radius: 4px; }
+
+        /* ===================== Centering Items =====================
+           Problem: Center a group of items in the middle of a container.
+           Solution: display: flex + justify-content: center + align-items: center + gap.
+        ========================================================== -->
+        */
+        .flex-center {
+            height: 200px;
+            background: #1d3557;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 16px;
+        }
+        .flex-center .box { background: #e63946; width: 80px; height: 60px; }
+
+        /* ===================== Space Between & Wrap =====================
+           Problem: Distribute items evenly and wrap to next line when they don't fit.
+           Solution: justify-content: space-between spreads items edge to edge.
+           flex-wrap: wrap allows items to flow to the next row.
+        ============================================================== -->
+        */
+        .flex-distribute {
+            background: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .flex-distribute .box { background: #457b9d; width: 200px; }
+
+        /* ===================== Sidebar + Main Layout =====================
+           Problem: Fixed-width sidebar with a flexible main content area.
+           Solution:
+             flex-basis: 200px → sidebar starts at 200px
+             flex-shrink: 0    → sidebar won't shrink below 200px
+             flex-grow: 1      → main content fills all remaining space
+        ============================================================== -->
+        */
+        .flex-layout {
+            display: flex;
+            gap: 16px;
+            min-height: 150px;
+        }
+        .flex-layout .side {
+            background: #a8dadc;
+            padding: 16px;
+            flex-basis: 200px;
+            flex-shrink: 0;
+        }
+        .flex-layout .main {
+            background: #457b9d;
+            color: white;
+            padding: 16px;
+            flex-grow: 1;
+        }
+
+        /* ===================== Navbar with Flexbox =====================
+           Problem: Logo on the left, nav links on the right, vertically centered.
+           Solution: justify-content: space-between pushes logo and links apart.
+           align-items: center vertically centers everything.
+        ============================================================== -->
+        */
+        .flex-navbar {
+            background: #1d3557;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .flex-navbar .logo { color: #f1faee; font-size: 1.4em; font-weight: bold; }
+        .flex-navbar .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 16px;
+        }
+        .flex-navbar .nav-links a { color: #a8dadc; text-decoration: none; }
+
+        /* ===================== Order & Reverse =====================
+           Problem: Change visual order of items without changing the HTML.
+           Solution:
+             flex-direction: row-reverse flips all items.
+             order property on individual items — lower numbers appear first.
+        ========================================================== -->
+        */
+        .flex-order {
+            display: flex;
+            gap: 10px;
+            flex-direction: row-reverse;
+        }
+        .flex-order .box { flex: 1; }
+        .flex-order .box-1 { background: #e63946; }
+        .flex-order .box-2 { background: #457b9d; }
+        .flex-order .box-3 { background: #2a9d8f; order: -1; }
+    </style>
+</head>
+<body>
+    <h1>CSS Flexbox</h1>
+
+    <h2>Centering Items</h2>
+    <p class="desc"><code>justify-content: center</code> (horizontal) + <code>align-items: center</code> (vertical) + <code>gap: 16px</code> between items.</p>
+    <div class="demo">
+        <div class="flex-center">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+        </div>
+    </div>
+
+    <h2>Space Between & Wrap</h2>
+    <p class="desc"><code>space-between</code> distributes items edge to edge. <code>flex-wrap: wrap</code> lets items flow to the next row when they don't fit. Resize the browser to see wrapping.</p>
+    <div class="demo">
+        <div class="flex-distribute">
+            <div class="box">Item 1</div>
+            <div class="box">Item 2</div>
+            <div class="box">Item 3</div>
+            <div class="box">Item 4</div>
+            <div class="box">Item 5</div>
+            <div class="box">Item 6</div>
+        </div>
+    </div>
+
+    <h2>Sidebar + Main Layout</h2>
+    <p class="desc">Sidebar: <code>flex-basis: 200px; flex-shrink: 0</code> (fixed). Main: <code>flex-grow: 1</code> (fills the rest).</p>
+    <div class="demo">
+        <div class="flex-layout">
+            <div class="side">Sidebar (200px, won't shrink)</div>
+            <div class="main">Main content (grows to fill remaining space)</div>
+        </div>
+    </div>
+
+    <h2>Navbar</h2>
+    <p class="desc"><code>space-between</code> pushes the logo and links to opposite ends. <code>align-items: center</code> aligns them vertically.</p>
+    <div class="demo">
+        <div class="flex-navbar">
+            <span class="logo">MySite</span>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Order & Reverse</h2>
+    <p class="desc"><code>flex-direction: row-reverse</code> flips all items. <code>order: -1</code> on Box 3 makes it appear first (lower order = shown first).</p>
+    <div class="demo">
+        <div class="flex-order">
+            <div class="box box-1">Box 1</div>
+            <div class="box box-2">Box 2</div>
+            <div class="box box-3">Box 3 (order: -1)</div>
+        </div>
+    </div>
+</body>
+</html>
