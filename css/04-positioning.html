@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Positioning</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #e63946; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #e63946; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; }
+
+        /* ===================== Relative + Absolute =====================
+           Problem: Position a notification badge at the top-right corner of a card.
+           Solution: Parent gets position: relative (creates the reference frame).
+           Child gets position: absolute + top/right to place it relative to the parent.
+        ============================================================== */
+        .card {
+            width: 250px;
+            height: 150px;
+            background: #f1faee;
+            border: 2px solid #457b9d;
+            border-radius: 8px;
+            padding: 16px;
+            position: relative;
+        }
+        .badge {
+            width: 28px;
+            height: 28px;
+            background: #e63946;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+
+        /* ===================== Fixed Position =====================
+           Problem: A "Back to Top" button that always stays in view.
+           Solution: position: fixed takes the element out of normal flow
+           and positions it relative to the viewport.
+        ======================================================== */
+        .back-to-top {
+            background: #e63946;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* ===================== Sticky Position =====================
+           Problem: A header that sticks to the top when you scroll past it.
+           Solution: position: sticky + top: 0.
+           The element scrolls normally until it hits the top, then it sticks.
+        ========================================================== */
+        .scroll-container {
+            height: 300px;
+            overflow-y: auto;
+            border: 2px solid #457b9d;
+        }
+        .sticky-header {
+            background: #1d3557;
+            color: white;
+            padding: 12px 16px;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+        .scroll-content p {
+            padding: 12px 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* ===================== Z-Index Stacking =====================
+           Problem: Overlapping elements — control which one appears on top.
+           Solution: z-index sets stacking order (higher = on top).
+           Only works on positioned elements (relative, absolute, fixed, sticky).
+        ============================================================ */
+        .stack-container { position: relative; height: 200px; }
+        .stack-box {
+            width: 150px;
+            height: 150px;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+        .stack-red   { background: #e63946; top: 20px; left: 20px;  z-index: 2; }
+        .stack-blue  { background: #457b9d; top: 40px; left: 60px;  z-index: 1; }
+        .stack-green { background: #2a9d8f; top: 60px; left: 100px; z-index: 3; }
+    </style>
+</head>
+<body>
+    <h1>CSS Positioning</h1>
+
+    <h2>Relative + Absolute (Notification Badge)</h2>
+    <p class="desc">Parent: <code>position: relative</code>. Badge: <code>position: absolute; top: -10px; right: -10px</code>. The badge positions itself relative to the card's edges.</p>
+    <div class="demo">
+        <div class="card">
+            <div class="badge">3</div>
+            <h3>Notifications</h3>
+            <p>You have 3 new messages.</p>
+        </div>
+    </div>
+
+    <h2>Fixed "Back to Top" Button</h2>
+    <p class="desc"><code>position: fixed; bottom: 20px; right: 20px</code> — stays in the same spot on screen regardless of scrolling. Check the bottom-right corner.</p>
+    <a href="#" class="back-to-top">&uarr;</a>
+
+    <h2>Sticky Header</h2>
+    <p class="desc"><code>position: sticky; top: 0</code> — scrolls normally until it reaches the top of the scrollable container, then sticks there. Scroll the box below to see it.</p>
+    <div class="demo">
+        <div class="scroll-container">
+            <div class="sticky-header">I stick to the top when you scroll!</div>
+            <div class="scroll-content">
+                <p>Item 1 — Scroll down to see the sticky effect</p>
+                <p>Item 2 — The header stays pinned</p>
+                <p>Item 3 — Lorem ipsum dolor sit amet</p>
+                <p>Item 4 — Consectetur adipiscing elit</p>
+                <p>Item 5 — Sed do eiusmod tempor</p>
+                <p>Item 6 — Incididunt ut labore et dolore</p>
+                <p>Item 7 — Magna aliqua ut enim</p>
+                <p>Item 8 — Ad minim veniam quis nostrud</p>
+                <p>Item 9 — Exercitation ullamco laboris</p>
+                <p>Item 10 — Nisi ut aliquip ex ea commodo</p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Z-Index Stacking</h2>
+    <p class="desc">Green has <code>z-index: 3</code> (top), Red has <code>z-index: 2</code> (middle), Blue has <code>z-index: 1</code> (bottom). Only works on positioned elements.</p>
+    <div class="demo">
+        <div class="stack-container">
+            <div class="stack-box stack-red">Red (z:2)</div>
+            <div class="stack-box stack-blue">Blue (z:1)</div>
+            <div class="stack-box stack-green">Green (z:3)</div>
+        </div>
+    </div>
+</body>
+</html>
