@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Responsive Design</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 1100px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #e63946; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #e63946; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; }
+
+        /* ===================== Mobile-First Media Queries =====================
+           Problem: Layout needs to adapt from mobile to desktop.
+           Solution: Start with mobile (1 column), then add min-width breakpoints.
+           Mobile-first = default CSS is for small screens, override for larger.
+        =================================================================== */
+        .responsive-grid {
+            display: grid;
+            gap: 16px;
+            grid-template-columns: 1fr;
+        }
+        .responsive-grid .card {
+            background: #457b9d;
+            color: white;
+            padding: 24px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        @media (min-width: 600px) {
+            .responsive-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 900px) {
+            .responsive-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* ===================== Fluid Typography with clamp() =====================
+           Problem: Font size should scale with viewport but have min/max bounds.
+           Solution: clamp(min, preferred, max)
+             - min: 1.2rem (never smaller than this)
+             - preferred: 4vw (scales with viewport width)
+             - max: 3rem (never bigger than this)
+        ===================================================================== */
+        .fluid-heading {
+            color: #1d3557;
+            font-size: clamp(1.2rem, 4vw, 3rem);
+        }
+
+        /* ===================== Responsive Navigation =====================
+           Problem: Nav links should stack on mobile, go horizontal on desktop.
+           Solution: Default is vertical (flex-direction: column).
+           At 768px+ switch to row.
+        ============================================================= */
+        .responsive-nav {
+            background: #1d3557;
+            padding: 16px;
+        }
+        .responsive-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .responsive-nav a {
+            color: #f1faee;
+            text-decoration: none;
+            padding: 8px 16px;
+            display: block;
+            border-radius: 4px;
+        }
+        .responsive-nav a:hover { background: #457b9d; }
+
+        @media (min-width: 768px) {
+            .responsive-nav ul {
+                flex-direction: row;
+                gap: 8px;
+            }
+        }
+
+        /* ===================== Responsive Units =====================
+           Problem: When to use %, rem, em, vh, vw, px.
+           Solution: Each unit has an ideal use case:
+             % → widths relative to parent
+             rem → consistent spacing (relative to root font-size)
+             em → component-scoped spacing (relative to own font-size)
+             vh/vw → viewport-relative (hero sections, full-screen)
+             px → small fixed things (borders, shadows, border-radius)
+        ========================================================== -->
+        */
+        .units-demo {
+            background: #f1faee;
+            border: 2px solid #a8dadc;
+            width: 90%;
+            max-width: 50rem;
+            padding: 1.5em;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            min-height: 30vh;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Responsive Design</h1>
+
+    <h2>Mobile-First Grid</h2>
+    <p class="desc">Default: 1 column. At 600px+: 2 columns. At 900px+: 3 columns. Mobile-first means the base CSS targets small screens, and <code>min-width</code> queries add complexity for larger ones.</p>
+    <div class="demo">
+        <div class="responsive-grid">
+            <div class="card">Card 1</div>
+            <div class="card">Card 2</div>
+            <div class="card">Card 3</div>
+            <div class="card">Card 4</div>
+            <div class="card">Card 5</div>
+            <div class="card">Card 6</div>
+        </div>
+    </div>
+
+    <h2>Fluid Typography with clamp()</h2>
+    <p class="desc"><code>font-size: clamp(1.2rem, 4vw, 3rem)</code> — scales smoothly with the viewport, but never goes below 1.2rem or above 3rem. Resize the browser to see it.</p>
+    <div class="demo">
+        <h2 class="fluid-heading">I scale fluidly with the viewport!</h2>
+    </div>
+
+    <h2>Responsive Navigation</h2>
+    <p class="desc">Default: vertical <code>flex-direction: column</code>. At 768px+: horizontal <code>flex-direction: row</code>.</p>
+    <div class="demo">
+        <nav class="responsive-nav">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Portfolio</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <h2>When to Use Which Unit</h2>
+    <p class="desc">This box uses: width in <code>%</code>, max-width in <code>rem</code>, padding in <code>em</code>, font-size in <code>rem</code>, border-radius in <code>px</code>, min-height in <code>vh</code>.</p>
+    <div class="demo">
+        <div class="units-demo">
+            <p><strong>%</strong> — relative to parent (good for widths)</p>
+            <p><strong>rem</strong> — relative to root font-size, 1rem = 16px default (consistent spacing)</p>
+            <p><strong>em</strong> — relative to the element's own font-size (component-scoped)</p>
+            <p><strong>vh/vw</strong> — relative to viewport height/width (hero sections, full-screen layouts)</p>
+            <p><strong>px</strong> — absolute pixels (borders, shadows, small fixed details)</p>
+        </div>
+    </div>
+</body>
+</html>
