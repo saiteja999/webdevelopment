@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Selectors & Specificity</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #e63946; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #e63946; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; }
+
+        /* ===================== Pseudo-Classes =====================
+           Problem: Style specific items in a list (first, last, odd, hover).
+           Solution: Pseudo-classes target elements by state or position.
+             :first-child → first element among siblings
+             :last-child  → last element
+             :nth-child(odd) → every odd-numbered element
+             :hover → when the mouse is over it
+        ======================================================== */
+        .selector-list { list-style: none; padding: 0; }
+        .selector-list li {
+            padding: 10px 16px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .selector-list li:first-child { font-weight: bold; color: #0077cc; }
+        .selector-list li:last-child { font-style: italic; color: #e63946; }
+        .selector-list li:nth-child(odd) { background: #f8f8f8; }
+        .selector-list li:hover { background: #e0e0e0; }
+
+        /* ===================== Pseudo-Elements =====================
+           Problem: Add decorative content or style parts of text without extra HTML.
+           Solution:
+             ::before / ::after → insert content before/after the element
+             ::first-line → style just the first line of text
+             ::first-letter → style the first character (drop cap effect)
+        ========================================================== */
+        .fancy-quote {
+            font-size: 1.1em;
+            line-height: 1.8;
+            padding: 20px 40px;
+            background: #f1faee;
+            border-left: 4px solid #e63946;
+            position: relative;
+        }
+        .fancy-quote::before {
+            content: "\201C";
+            font-size: 4em;
+            color: #e63946;
+            position: absolute;
+            top: -10px;
+            left: 8px;
+            line-height: 1;
+        }
+        .fancy-quote::after {
+            content: "\201D";
+            font-size: 4em;
+            color: #e63946;
+            line-height: 1;
+        }
+        .fancy-quote::first-line { font-weight: bold; }
+        .fancy-quote::first-letter { font-size: 1.8em; color: #e63946; }
+
+        /* ===================== Attribute Selectors =====================
+           Problem: Style links differently based on their href or attributes.
+           Solution:
+             [href^="https"]  → starts with "https"
+             [href^="http:"]  → starts with "http:" (insecure)
+             [href$=".pdf"]   → ends with ".pdf"
+             [title]          → has a title attribute
+        ============================================================ -->
+        */
+        .attr-links a { display: block; padding: 6px 0; }
+        .attr-links a[href^="https"] { color: #2a9d8f; }
+        .attr-links a[href^="http:"] { color: #e63946; }
+        .attr-links a[href$=".pdf"]::after { content: " 📄"; }
+        .attr-links a[title] { text-decoration: underline dotted; }
+
+        /* ===================== Combinators =====================
+           Problem: Select elements based on their relationship to other elements.
+           Solution:
+             .parent > p     → direct child only (not nested deeper)
+             h3 + p          → p immediately after h3 (adjacent sibling)
+             h3 ~ p          → all p siblings after h3 (general sibling)
+             .parent p       → any p descendant (any depth)
+        ====================================================== */
+        .combo p { color: #666; }
+        .combo > p { border-left: 4px solid #0077cc; padding-left: 8px; }
+        .combo h3 + p { font-weight: bold; }
+        .combo h3 ~ p { font-style: italic; }
+    </style>
+</head>
+<body>
+    <h1>CSS Selectors & Specificity</h1>
+
+    <h2>Pseudo-Classes</h2>
+    <p class="desc"><code>:first-child</code> → blue bold. <code>:last-child</code> → red italic. <code>:nth-child(odd)</code> → gray background. <code>:hover</code> → darker on mouse over.</p>
+    <div class="demo">
+        <ul class="selector-list">
+            <li>First Item (bold + blue via :first-child)</li>
+            <li>Second Item</li>
+            <li>Third Item</li>
+            <li>Fourth Item</li>
+            <li>Fifth Item</li>
+            <li>Last Item (italic + red via :last-child)</li>
+        </ul>
+    </div>
+
+    <h2>Pseudo-Elements</h2>
+    <p class="desc"><code>::before</code> inserts a big opening quote. <code>::after</code> inserts a closing quote. <code>::first-line</code> makes the first line bold. <code>::first-letter</code> creates a drop-cap effect.</p>
+    <div class="demo">
+        <p class="fancy-quote">
+            The only way to do great work is to love what you do.
+            If you haven't found it yet, keep looking. Don't settle.
+            As with all matters of the heart, you'll know when you find it.
+        </p>
+    </div>
+
+    <h2>Attribute Selectors</h2>
+    <p class="desc"><code>[href^="https"]</code> → green. <code>[href^="http:"]</code> → red. <code>[href$=".pdf"]</code> → adds a 📄 icon. <code>[title]</code> → dotted underline.</p>
+    <div class="demo">
+        <div class="attr-links">
+            <a href="https://google.com">Secure link — https (green)</a>
+            <a href="http://example.com">Insecure link — http (red)</a>
+            <a href="https://example.com/doc.pdf">Download PDF (has 📄 icon)</a>
+            <a href="https://mdn.dev" title="MDN Web Docs">Link with title (dotted underline)</a>
+            <a href="#local">Local link (default styling)</a>
+        </div>
+    </div>
+
+    <h2>Combinators</h2>
+    <p class="desc"><code>&gt;</code> selects direct children. <code>+</code> selects the adjacent sibling. <code>~</code> selects all following siblings. Space selects any descendant.</p>
+    <div class="demo">
+        <div class="combo">
+            <h3>Heading</h3>
+            <p>Direct child + adjacent to h3 (bold + blue border + italic)</p>
+            <p>Direct child + general sibling of h3 (blue border + italic)</p>
+            <div>
+                <p>Nested paragraph — descendant but NOT direct child (gray, italic, but no blue border)</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
