@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Transitions & Animations</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #e63946; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #e63946; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+
+        /* ===================== Hover Transitions =====================
+           Problem: Make hover effects smooth instead of instant.
+           Solution: transition specifies which property to animate, how long, and the easing.
+             transition: property duration timing-function
+           Apply transition on the base state, NOT the :hover state.
+        ========================================================== */
+        .trans-btn {
+            padding: 12px 24px;
+            background: #e63946;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .trans-btn:hover { background: #c1121f; }
+
+        .trans-box {
+            width: 100px;
+            height: 100px;
+            background: #457b9d;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .trans-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        }
+
+        .trans-rotate {
+            width: 80px;
+            height: 80px;
+            background: #2a9d8f;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.6s ease;
+        }
+        .trans-rotate:hover { transform: rotate(360deg); }
+
+        /* ===================== Keyframe Animation — Bounce =====================
+           Problem: Create a continuously bouncing ball.
+           Solution: @keyframes defines the animation steps.
+           animation shorthand: name duration timing iteration
+             bounce 1s ease-in-out infinite
+        =================================================================== */
+        @keyframes bounce {
+            0%   { transform: translateY(0); }
+            50%  { transform: translateY(-30px); }
+            100% { transform: translateY(0); }
+        }
+        .bouncing-ball {
+            width: 60px;
+            height: 60px;
+            background: #e63946;
+            border-radius: 50%;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        /* ===================== Loading Spinner =====================
+           Problem: Create a spinning loading indicator.
+           Solution: @keyframes spin rotates 360deg.
+           The trick is using a border with one side colored differently.
+           linear timing = constant speed (no easing).
+        ======================================================== */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ddd;
+            border-top-color: #e63946;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* ===================== Multi-Step Animation =====================
+           Problem: A box that moves in a rectangle pattern, changing color at each corner.
+           Solution: @keyframes with percentage stops.
+           Each stop sets both transform (position) and background (color).
+        ============================================================ -->
+        */
+        @keyframes colorSlide {
+            0%   { transform: translate(0, 0);          background: #e63946; }
+            25%  { transform: translate(calc(100% - 50px), 0);          background: #457b9d; }
+            50%  { transform: translate(calc(100% - 50px), 150px);      background: #2a9d8f; }
+            75%  { transform: translate(0, 150px);                      background: #9b5de5; }
+            100% { transform: translate(0, 0);                          background: #e63946; }
+        }
+        .animation-area {
+            position: relative;
+            height: 200px;
+            background: #f0f0f0;
+            border-radius: 8px;
+            width: 100%;
+        }
+        .sliding-box {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            position: absolute;
+            animation: colorSlide 4s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <h1>CSS Transitions & Animations</h1>
+
+    <h2>Hover Transitions</h2>
+    <p class="desc"><code>transition</code> on the base state makes changes smooth. Button: color change. Box: scale + shadow. Circle: 360deg rotation. Hover over each to see.</p>
+    <div class="demo">
+        <button class="trans-btn">Hover Me</button>
+        <div class="trans-box">Scale</div>
+        <div class="trans-rotate">Spin</div>
+    </div>
+
+    <h2>Bouncing Ball (@keyframes)</h2>
+    <p class="desc"><code>@keyframes bounce</code> moves the ball up at 50% and back at 100%. <code>animation: bounce 1s ease-in-out infinite</code> loops it forever.</p>
+    <div class="demo">
+        <div class="bouncing-ball"></div>
+    </div>
+
+    <h2>Loading Spinner</h2>
+    <p class="desc">A circle with one colored border side + <code>@keyframes spin</code> rotating 0→360deg. <code>linear</code> timing keeps constant speed.</p>
+    <div class="demo">
+        <div class="spinner"></div>
+    </div>
+
+    <h2>Multi-Step Color Slide</h2>
+    <p class="desc">The box moves in a rectangle: top-left → top-right → bottom-right → bottom-left → back. Each stop changes the background color.</p>
+    <div class="demo">
+        <div class="animation-area">
+            <div class="sliding-box"></div>
+        </div>
+    </div>
+</body>
+</html>
