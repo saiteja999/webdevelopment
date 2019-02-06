@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS DOM Manipulation</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #f0ad4e; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #f0ad4e; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; }
+        .highlight { background: #fff3cd; padding: 4px 8px; }
+        .card { border: 1px solid #ddd; padding: 16px; margin: 8px; border-radius: 8px; display: inline-block; }
+        #todo-list { list-style: none; padding: 0; }
+        #todo-list li { padding: 8px 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        #todo-list li.done { text-decoration: line-through; color: #999; }
+        button { padding: 6px 14px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>DOM Manipulation</h1>
+
+    <!-- ===================== Selecting & Modifying =====================
+         Problem: Select elements and change their content/classes.
+         Solution:
+           getElementById() → by id
+           querySelectorAll() → by CSS selector (returns NodeList)
+           querySelector() → first match
+           textContent → change text
+           classList.add() → add a CSS class
+    ================================================================ -->
+    <h2>Selecting & Modifying Elements</h2>
+    <p class="desc">Using <code>getElementById</code>, <code>querySelectorAll</code>, and <code>classList.add</code> to select and modify elements.</p>
+    <div class="demo">
+        <h3 id="title">This will be changed by JS</h3>
+        <div id="content-box">
+            <p>First paragraph (will get highlighted)</p>
+            <p>Second paragraph</p>
+        </div>
+        <ul>
+            <li class="item">Item A</li>
+            <li class="item">Item B</li>
+            <li class="item">Item C</li>
+        </ul>
+    </div>
+
+    <!-- ===================== Creating Elements =====================
+         Problem: Dynamically generate cards from data.
+         Solution:
+           createElement() → create a new element
+           textContent → set its text
+           appendChild() → attach it to the DOM
+    ============================================================ -->
+    <h2>Creating Elements Dynamically</h2>
+    <p class="desc">Using <code>createElement</code> and <code>appendChild</code> to build cards from a JavaScript array.</p>
+    <div class="demo" id="card-container"></div>
+
+    <!-- ===================== classList & Style =====================
+         Problem: Toggle visibility and change styles dynamically.
+         Solution:
+           classList.toggle() → add class if absent, remove if present
+           element.style.backgroundColor → inline style change
+    ============================================================ -->
+    <h2>classList & Style Manipulation</h2>
+    <p class="desc"><code>classList.toggle()</code> to show/hide, and <code>style.backgroundColor</code> for dynamic inline styles.</p>
+    <div class="demo">
+        <button id="toggle-btn">Toggle Text</button>
+        <p id="toggle-text">Now you see me!</p>
+
+        <button id="color-btn">Random Color</button>
+        <div id="color-box" style="width:100px;height:100px;background:#ddd;margin-top:10px;border-radius:8px;transition:background 0.3s;"></div>
+    </div>
+
+    <!-- ===================== Mini Todo List =====================
+         Problem: Build an interactive todo list with add, complete, and delete.
+         Solution: Combines createElement, addEventListener, classList.toggle, and remove().
+    ========================================================== -->
+    <h2>Mini Todo List</h2>
+    <p class="desc">Putting it all together: form handling, element creation, event listeners, and DOM removal.</p>
+    <div class="demo">
+        <form id="todo-form">
+            <input type="text" id="todo-input" placeholder="Add a task..." required>
+            <button type="submit">Add</button>
+        </form>
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script>
+        // --- Selecting & Modifying ---
+        document.getElementById("title").textContent = "DOM is Fun!";
+
+        document.querySelectorAll(".item").forEach(item => {
+            console.log("Item text:", item.textContent);
+        });
+
+        document.querySelector("#content-box p").classList.add("highlight");
+
+
+        // --- Creating Elements Dynamically ---
+        const cardData = [
+            { title: "HTML", desc: "Structure of the web" },
+            { title: "CSS", desc: "Styling and layout" },
+            { title: "JavaScript", desc: "Interactivity and logic" },
+            { title: "React", desc: "Component-based UI" },
+            { title: "Node.js", desc: "Server-side JavaScript" },
+        ];
+        const container = document.getElementById("card-container");
+
+        cardData.forEach(data => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const h4 = document.createElement("h4");
+            h4.textContent = data.title;
+
+            const p = document.createElement("p");
+            p.textContent = data.desc;
+
+            card.appendChild(h4);
+            card.appendChild(p);
+            container.appendChild(card);
+        });
+
+
+        // --- classList & Style Manipulation ---
+        document.getElementById("toggle-btn").addEventListener("click", () => {
+            const text = document.getElementById("toggle-text");
+            text.style.display = text.style.display === "none" ? "" : "none";
+        });
+
+        document.getElementById("color-btn").addEventListener("click", () => {
+            const randomColor = `hsl(${Math.random() * 360}, 70%, 60%)`;
+            document.getElementById("color-box").style.backgroundColor = randomColor;
+        });
+
+
+        // --- Mini Todo List ---
+        const form = document.getElementById("todo-form");
+        const input = document.getElementById("todo-input");
+        const list = document.getElementById("todo-list");
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const li = document.createElement("li");
+
+            const span = document.createElement("span");
+            span.textContent = input.value;
+
+            const btnGroup = document.createElement("div");
+
+            const doneBtn = document.createElement("button");
+            doneBtn.textContent = "Done";
+            doneBtn.addEventListener("click", () => li.classList.toggle("done"));
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.style.marginLeft = "4px";
+            deleteBtn.addEventListener("click", () => li.remove());
+
+            btnGroup.appendChild(doneBtn);
+            btnGroup.appendChild(deleteBtn);
+            li.appendChild(span);
+            li.appendChild(btnGroup);
+            list.appendChild(li);
+
+            input.value = "";
+            input.focus();
+        });
+    </script>
+</body>
+</html>
