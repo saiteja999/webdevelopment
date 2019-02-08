@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Event Handling</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; max-width: 900px; margin: 40px auto; padding: 0 20px; color: #333; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 8px; }
+        h2 { margin-top: 40px; color: #f0ad4e; }
+        p.desc { background: #f4f4f4; border-left: 4px solid #f0ad4e; padding: 12px 16px; }
+        .demo { border: 2px dashed #ccc; padding: 20px; margin: 16px 0; }
+        .counter-display { font-size: 3em; text-align: center; margin: 16px; font-weight: bold; }
+        .key-display { font-size: 1.5em; text-align: center; padding: 20px; background: #1d3557; color: #f1faee; border-radius: 8px; min-height: 40px; transition: background 0.3s; }
+        button { padding: 8px 16px; font-size: 1em; cursor: pointer; margin: 4px; }
+        .outer-box { background: #e63946; padding: 40px; border-radius: 8px; cursor: pointer; }
+        .middle-box { background: #457b9d; padding: 40px; border-radius: 8px; cursor: pointer; }
+        .inner-box { background: #2a9d8f; padding: 20px; border-radius: 8px; cursor: pointer; color: white; text-align: center; }
+        #event-log { background: #1d3557; color: #a8dadc; padding: 12px; border-radius: 8px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 0.9em; margin-top: 10px; }
+        .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+        .btn-group button { border-radius: 6px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <h1>Event Handling</h1>
+
+    <!-- ===================== Click Counter =====================
+         Problem: Increment/decrement a displayed number on button clicks.
+         Solution: addEventListener("click", callback) on each button.
+         Update the DOM with textContent.
+    ======================================================== -->
+    <h2>Click Counter</h2>
+    <p class="desc">Three buttons, one shared counter variable. Each button's <code>addEventListener("click")</code> modifies the count and updates the display.</p>
+    <div class="demo">
+        <div class="counter-display" id="counter">0</div>
+        <div style="text-align:center">
+            <button id="decrement">&minus;</button>
+            <button id="reset">Reset</button>
+            <button id="increment">+</button>
+        </div>
+    </div>
+
+    <!-- ===================== Keyboard Events =====================
+         Problem: Detect which key was pressed and respond to arrow keys.
+         Solution: Listen for "keydown" on document.
+         event.key gives the key name, event.code gives the physical key.
+    ============================================================ -->
+    <h2>Keyboard Events</h2>
+    <p class="desc">Listening for <code>keydown</code> on the document. <code>event.key</code> shows the key name. Arrow keys change the background color.</p>
+    <div class="demo">
+        <div class="key-display" id="key-output">Press any key...</div>
+    </div>
+
+    <!-- ===================== Event Bubbling =====================
+         Problem: A click on the inner box triggers handlers on all parent boxes too.
+         Solution: That's event bubbling — events propagate up the DOM tree.
+         stopPropagation() prevents it from reaching parent handlers.
+    ========================================================== -->
+    <h2>Event Bubbling & stopPropagation</h2>
+    <p class="desc">Clicking "Inner" fires all three handlers (inner → middle → outer). Toggle <code>stopPropagation()</code> on the middle box to see the difference.</p>
+    <div class="demo">
+        <button id="toggle-propagation">stopPropagation: OFF</button>
+        <br><br>
+        <div class="outer-box" id="outer">
+            <div class="middle-box" id="middle">
+                <div class="inner-box" id="inner">Inner (click me!)</div>
+            </div>
+        </div>
+        <div id="event-log">Event log:</div>
+    </div>
+
+    <!-- ===================== Event Delegation =====================
+         Problem: Many buttons — adding a listener to each is wasteful.
+         Solution: One listener on the parent. Use event.target to know which child was clicked.
+         data-* attributes carry metadata.
+    ============================================================ -->
+    <h2>Event Delegation</h2>
+    <p class="desc">One <code>addEventListener</code> on the parent <code>#fruit-buttons</code>. <code>event.target.dataset.fruit</code> tells us which button was clicked.</p>
+    <div class="demo">
+        <div class="btn-group" id="fruit-buttons">
+            <button data-fruit="Apple">Apple</button>
+            <button data-fruit="Banana">Banana</button>
+            <button data-fruit="Cherry">Cherry</button>
+            <button data-fruit="Dragonfruit">Dragonfruit</button>
+            <button data-fruit="Elderberry">Elderberry</button>
+        </div>
+        <p>Selected: <strong id="fruit-output">None</strong></p>
+    </div>
+
+    <!-- ===================== Form Validation with preventDefault =====================
+         Problem: Validate a form before it submits (and prevent default browser submission).
+         Solution: e.preventDefault() stops the form from navigating away.
+         Then run custom validation logic.
+    ============================================================================= -->
+    <h2>Form Validation with preventDefault</h2>
+    <p class="desc"><code>e.preventDefault()</code> stops the default form submission. Then we validate manually and show feedback.</p>
+    <div class="demo">
+        <form id="signup-form">
+            <label>Name: <input type="text" id="name-input"></label><br><br>
+            <label>Email: <input type="text" id="email-input"></label><br><br>
+            <button type="submit">Sign Up</button>
+        </form>
+        <p id="form-message"></p>
+    </div>
+
+    <script>
+        // --- Click Counter ---
+        let count = 0;
+        const counterEl = document.getElementById("counter");
+
+        document.getElementById("increment").addEventListener("click", () => {
+            count++;
+            counterEl.textContent = count;
+        });
+        document.getElementById("decrement").addEventListener("click", () => {
+            count--;
+            counterEl.textContent = count;
+        });
+        document.getElementById("reset").addEventListener("click", () => {
+            count = 0;
+            counterEl.textContent = count;
+        });
+
+
+        // --- Keyboard Events ---
+        const keyOutput = document.getElementById("key-output");
+        const arrowColors = {
+            ArrowUp: "#2a9d8f",
+            ArrowDown: "#e63946",
+            ArrowLeft: "#457b9d",
+            ArrowRight: "#e9c46a"
+        };
+
+        document.addEventListener("keydown", (e) => {
+            keyOutput.textContent = `Key: "${e.key}" | Code: "${e.code}"`;
+            if (arrowColors[e.key]) {
+                keyOutput.style.background = arrowColors[e.key];
+            }
+        });
+
+
+        // --- Event Bubbling ---
+        const eventLog = document.getElementById("event-log");
+        let stopProp = false;
+
+        function logEvent(name, e) {
+            eventLog.textContent += `\n→ ${name} clicked`;
+            eventLog.scrollTop = eventLog.scrollHeight;
+        }
+
+        document.getElementById("outer").addEventListener("click", (e) => logEvent("Outer", e));
+        document.getElementById("middle").addEventListener("click", (e) => {
+            if (stopProp) e.stopPropagation();
+            logEvent("Middle", e);
+        });
+        document.getElementById("inner").addEventListener("click", (e) => logEvent("Inner", e));
+
+        document.getElementById("toggle-propagation").addEventListener("click", (e) => {
+            stopProp = !stopProp;
+            e.target.textContent = `stopPropagation: ${stopProp ? "ON" : "OFF"}`;
+        });
+
+
+        // --- Event Delegation ---
+        document.getElementById("fruit-buttons").addEventListener("click", (e) => {
+            if (e.target.tagName === "BUTTON") {
+                document.getElementById("fruit-output").textContent = e.target.dataset.fruit;
+            }
+        });
+
+
+        // --- Form Validation ---
+        document.getElementById("signup-form").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const nameVal = document.getElementById("name-input").value;
+            const emailVal = document.getElementById("email-input").value;
+            const msg = document.getElementById("form-message");
+
+            if (nameVal.length < 3) {
+                msg.textContent = "Name must be at least 3 characters.";
+                msg.style.color = "#e63946";
+            } else if (!emailVal.includes("@")) {
+                msg.textContent = "Email must contain @.";
+                msg.style.color = "#e63946";
+            } else {
+                msg.textContent = `Welcome, ${nameVal}!`;
+                msg.style.color = "#2a9d8f";
+            }
+        });
+    </script>
+</body>
+</html>
